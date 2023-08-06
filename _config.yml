@@ -1,0 +1,23 @@
+blogName:           마곡뚜벅쵸
+title:              마곡뚜벅쵸의 공간
+email:              shlee0882@gmail.com
+description:        A Blog Theme by Start Bootstrap
+author:             마곡뚜벅쵸
+baseurl:            ""
+url:                "https://shlee0882.github.io"
+
+# Social Profiles
+github_username:    shlee0882
+
+# Add your google-analytics ID here to activate google analytics
+google_analytics:   UA-XXXXXXXXX-X # out your google-analytics code
+
+# Build settings
+future: true
+markdown:           kramdown
+paginate:           5
+paginate_path:      "/posts/page:num/"
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-sitemap ## Uncomment this line to silently generate a sitemaps.org compliant sitemap for your Jekyll site
