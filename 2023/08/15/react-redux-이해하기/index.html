@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="ko" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>react-redux 이해하기 | 마곡뚜벅쵸의 공간</title><meta name="author" content="마곡뚜벅쵸"><meta name="copyright" content="마곡뚜벅쵸"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Redux 기본 개념Redux는 상태 관리 라이브러리로그 핵심 개념에는 actions, reducers, store 등이 포함된다. 이 개념들이 함께 작동하여 애플리케이션의 상태를 효과적으로 관리한다. Actions: 상태를 변경하려는 의도를 나타내는 평범한 JavaScript 객체. 각 액션은 일반적으로 type 필드를 포함하며, 필요에 따라 추가적인 데">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-redux 이해하기">
+<meta property="og:url" content="http://shlee0882.github.io/2023/08/15/react-redux-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/index.html">
+<meta property="og:site_name" content="마곡뚜벅쵸의 공간">
+<meta property="og:description" content="Redux 기본 개념Redux는 상태 관리 라이브러리로그 핵심 개념에는 actions, reducers, store 등이 포함된다. 이 개념들이 함께 작동하여 애플리케이션의 상태를 효과적으로 관리한다. Actions: 상태를 변경하려는 의도를 나타내는 평범한 JavaScript 객체. 각 액션은 일반적으로 type 필드를 포함하며, 필요에 따라 추가적인 데">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/11533610?v=4">
+<meta property="article:published_time" content="2023-08-15T10:48:45.000Z">
+<meta property="article:modified_time" content="2023-08-15T10:53:03.358Z">
+<meta property="article:author" content="마곡뚜벅쵸">
+<meta property="article:tag" content="redux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://avatars.githubusercontent.com/u/11533610?v=4"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://shlee0882.github.io/2023/08/15/react-redux-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-4887793423086417',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '방금 막',
+    min: '몇 분 전',
+    hour: '몇 시간 전',
+    day: '몇 일 전',
+    month: '몇 달 전'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'react-redux 이해하기',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-15 19:53:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-4887793423086417',
+  enable_page_level_ads: 'true'
+});</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://avatars.githubusercontent.com/u/11533610?v=4" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">게시글</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">태그</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">카테고리</div><div class="length-num">7</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 홈</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 아카이브</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 정보</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="마곡뚜벅쵸의 공간"><span class="site-name">마곡뚜벅쵸의 공간</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 홈</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 아카이브</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 정보</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">react-redux 이해하기</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-08-15T10:48:45.000Z" title="Created 2023-08-15 19:48:45">2023-08-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-08-15T10:53:03.358Z" title="Updated 2023-08-15 19:53:03">2023-08-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/react/">react</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="react-redux 이해하기"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="Redux-기본-개념"><a href="#Redux-기본-개념" class="headerlink" title="Redux 기본 개념"></a>Redux 기본 개념</h2><p>Redux는 상태 관리 라이브러리로<br>그 핵심 개념에는 actions, reducers, store 등이 포함된다. <br/><br>이 개념들이 함께 작동하여 애플리케이션의 상태를 효과적으로 관리한다.</p>
+<p><strong>Actions</strong>: 상태를 변경하려는 의도를 나타내는 평범한 JavaScript 객체. <br/><br>각 액션은 일반적으로 type 필드를 포함하며, 필요에 따라 추가적인 데이터를 가질 수 있다.</p>
+<p><strong>Reducers</strong>: 액션을 받아 현재 상태를 변경하여 새로운 상태를 반환하는 순수 함수이다. <br/><br>리듀서는 이전 상태와 액션을 인수로 받아 새 상태를 반환한다.</p>
+<p><strong>Store</strong>: Redux 애플리케이션의 현재 상태를 보유하는 객체. <br/><br>createStore 함수를 사용하여 생성된다. <br/><br>스토어는 애플리케이션의 상태를 저장하며, 다음과 같은 주요 메서드들을 제공한다.</p>
+<p><strong>getState()</strong>: 현재 상태를 반환한다. <br/><br><strong>dispatch(action)</strong>: 액션을 리듀서에 전달하여 상태를 변경한다. <br/><br><strong>subscribe(listener)</strong>: 상태가 변경될 때마다 실행될 콜백 함수를 등록한다. <br/></p>
+<p>이러한 개념들이 서로 상호 작용하여 애플리케이션의 상태를 일관되게 관리하도록 도와준다.</p>
+<br/>
+
+<h2 id="Redux-쉽게-이해하기"><a href="#Redux-쉽게-이해하기" class="headerlink" title="Redux 쉽게 이해하기"></a>Redux 쉽게 이해하기</h2><p>Redux는 애플리케이션의 <strong>상태를 중앙 집중식으로 관리</strong>하는 라이브러리이다. <br/><br>Redux의 핵심 원칙 중 하나인 상태는 <strong>읽기 전용</strong>이다. <br/><br><strong>상태를 변경</strong>할 수 있는 유일한 방법은 <strong>액션을 보내는 것</strong>이다. <br/></p>
+<p>액션을 보냈을 때 상태는 어떻게 바뀔까? <br/><br>바로 여기서 <strong>리듀서(reducer)</strong> 가 중요한 역할을 한다. <br/><br>리듀서는 이전 상태와 액션을 입력으로 받아, 새로운 상태를 반환하는 함수다. </p>
+<p><strong>redux는 상태관리</strong> 다.</p>
+<br/>
+
+<h2 id="Redux-코드로-이해하기"><a href="#Redux-코드로-이해하기" class="headerlink" title="Redux 코드로 이해하기"></a>Redux 코드로 이해하기</h2><p>화면에서 이벤트로 dispatch 를 걸어놓은 버튼을 클릭하자. <br/><br>handleSubmit을 호출하고 있다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useDispatch &#125; <span class="keyword">from</span> <span class="string">&#x27;react-redux&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; addTodo &#125; <span class="keyword">from</span> <span class="string">&#x27;../redux/actions&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">AddTodo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [input, setInput] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> dispatch = <span class="title function_">useDispatch</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleSubmit</span> = (<span class="params">e</span>) =&gt; &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="keyword">if</span> (input.<span class="title function_">trim</span>() !== <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">      <span class="title function_">dispatch</span>(<span class="title function_">addTodo</span>(input));</span><br><span class="line">      <span class="title function_">setInput</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">form</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">&#123;input&#125;</span> <span class="attr">onChange</span>=<span class="string">&#123;(e)</span> =&gt;</span> setInput(e.target.value)&#125; /&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>Add<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">AddTodo</span>;</span><br></pre></td></tr></table></figure>
+
+<p>버튼은 아래 메서드를 호출한다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">dispatch</span>(<span class="title function_">addTodo</span>(input));  </span><br></pre></td></tr></table></figure>
+
+<p>무슨 뜻일까?</p>
+<ul>
+<li>dispatch 액션을 발행하여 상태를 변경하라는 명령을 내리는 메서드<br>addTodo(input)는 액션 생성자의 한 예</li>
+<li>이 함수를 호출하면, todo를 add한다가 시작했음을 나타내는 액션 객체를 반환한다.</li>
+<li>이 객체는 type 속성을 포함하며, 필요한 경우 추가 데이터(payload)도 포함할 수 있다.</li>
+<li>사실상 “todo add 액션을 발행하라”는 의미</li>
+<li>이 액션을 발행하면 Redux 스토어에 있는 리듀서가 호출되어 상태가 업데이트된다.</li>
+</ul>
+<p>type 필드를 포함하며, 필요에 따라 추가적인 데이터를 가진 addTodo <strong>Action</strong> 객체 확인 할수 있다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">addTodo</span> = (<span class="params">content</span>) =&gt; (&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;ADD_TODO&#x27;</span>,</span><br><span class="line">    <span class="attr">payload</span>: &#123;</span><br><span class="line">        <span class="attr">id</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(),</span><br><span class="line">        content,</span><br><span class="line">        <span class="attr">completed</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Redux 미들웨어를 거친다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; legacy_createStore <span class="keyword">as</span> createStore, applyMiddleware&#125; <span class="keyword">from</span> <span class="string">&#x27;redux&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; composeWithDevTools &#125; <span class="keyword">from</span> <span class="string">&#x27;redux-devtools-extension&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">&#x27;./reducers&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> thunk <span class="keyword">from</span> <span class="string">&#x27;redux-thunk&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(</span><br><span class="line">  rootReducer,</span><br><span class="line">  <span class="title function_">composeWithDevTools</span>(</span><br><span class="line">    <span class="comment">// applyMiddleware는 Redux store에 미들웨어를 적용하는 함수</span></span><br><span class="line">    <span class="comment">// 미들웨어는 Redux action이 dispatch될 때부터 리듀서에 도달하기 전까지의 프로세스를 확장하거나 수정할 수 해줌.</span></span><br><span class="line">    <span class="comment">// thunk는 특히 Redux 미들웨어 중 하나로, 비동기 작업이나 side effect을 다룰 때 유용하게 사용됨.</span></span><br><span class="line">    <span class="comment">// 기본적인 Redux는 동기적인 액션만 지원한다.</span></span><br><span class="line">    <span class="comment">// 즉, 액션을 dispatch하면 바로 상태가 업데이트된다.</span></span><br><span class="line">    <span class="comment">// 그러나 실제 애플리케이션에서는 서버 요청 같은 비동기 작업을 처리해야 하는 경우가 많다. </span></span><br><span class="line">    <span class="comment">// thunk를 사용하면 함수 형태의 액션을 dispatch하여 비동기 작업을 수행한 후, </span></span><br><span class="line">    <span class="comment">// 그 결과에 따라 다른 액션을 dispatch할 수 있다.</span></span><br><span class="line">    <span class="title function_">applyMiddleware</span>(thunk)</span><br><span class="line">  )</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store;</span><br></pre></td></tr></table></figure>
+
+<p>액션이 발행되면, 스토어에 등록된 리듀서가 호출된다. <br/><br>리듀서는 현재 상태와 액션 객체를 인자로 받아 새로운 상태를 반환한다. <br/><br>각 리듀서는 자신의 관리 영역에 해당하는 상태 부분만을 처리하고, 새 상태를 반환한다. <br/></p>
+<p>&#x3D;&gt; dispatch로 액션이 발생되면<br>리듀서(reducer)에서 해당 액션을 받아 새로운 상태와 payload를 반환한다. (상태관리)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initialState = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">todoReducer</span> = (<span class="params">state = initialState, action</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">switch</span> (action.<span class="property">type</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;ADD_TODO&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> [...state, action.<span class="property">payload</span>];</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;TOGGLE_TODO&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> state.<span class="title function_">map</span>(<span class="function"><span class="params">todo</span> =&gt;</span> todo.<span class="property">id</span> === action.<span class="property">id</span> ? &#123;</span><br><span class="line">                ...todo, <span class="attr">completed</span>: !todo.<span class="property">completed</span></span><br><span class="line">            &#125; : todo);</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;DELETE_TODO&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> state.<span class="title function_">filter</span>(<span class="function"><span class="params">todo</span> =&gt;</span> todo.<span class="property">id</span> !== action.<span class="property">id</span>);</span><br><span class="line">        <span class="attr">default</span>:</span><br><span class="line">            <span class="keyword">return</span> state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> todoReducer;</span><br></pre></td></tr></table></figure>
+
+<p>리듀서가 반환한 새로운 상태로 스토어가 업데이트된다. <br/><br>상태가 변경되면 react-redux 라이브러리의 connect 함수나 useSelector 훅을 사용하여 <br/><br>Redux 상태에 연결된 React 컴포넌트가 리렌더링 된다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useSelector &#125; <span class="keyword">from</span> <span class="string">&#x27;react-redux&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">TodoItem</span> <span class="keyword">from</span> <span class="string">&#x27;./TodoItem&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">TodoList</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// useSelector 훅</span></span><br><span class="line">  <span class="keyword">const</span> todos = <span class="title function_">useSelector</span>(<span class="function">(<span class="params">state</span>) =&gt;</span> state.<span class="property">todos</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;todos.map((todo) =&gt; (</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">TodoItem</span> <span class="attr">key</span>=<span class="string">&#123;todo.id&#125;</span> <span class="attr">todo</span>=<span class="string">&#123;todo&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">      ))&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">TodoList</span>;</span><br></pre></td></tr></table></figure>
+
+<p>흐름도</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+----------------+           +----------------+         +----------------+</span><br><span class="line">|                | 1. 액션  |                | 2. 액션|                |</span><br><span class="line">| React 컴포넌트 |----------&gt;|  액션 생성자   |--------&gt;|    Dispatch    |</span><br><span class="line">|                |  발행    |                |  객체   |                |</span><br><span class="line">+----------------+           +----------------+         +----------------+</span><br><span class="line">                                               |</span><br><span class="line">                                               |</span><br><span class="line">                                               v</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                    |                |</span><br><span class="line">                                    |   미들웨어    |</span><br><span class="line">                                    |                |</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                               |</span><br><span class="line">                                               |</span><br><span class="line">                                               v</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                    |                |</span><br><span class="line">                                    |    리듀서     |</span><br><span class="line">                                    |                |</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                               |</span><br><span class="line">                                               |</span><br><span class="line">                                               v</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                    |                |</span><br><span class="line">                                    |     스토어     |</span><br><span class="line">                                    |                |</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                               |</span><br><span class="line">                                               |</span><br><span class="line">                                               v</span><br><span class="line">                                    +----------------+</span><br><span class="line">                                    |                |</span><br><span class="line">                                    | React 컴포넌트 |</span><br><span class="line">                                    |    리렌더링    |</span><br><span class="line">                                    |                |</span><br><span class="line">                                    +----------------+</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g create-react-app</span><br><span class="line">$ create-react-app redux-test</span><br><span class="line">$ cd redux-test</span><br><span class="line">$ npm install redux redux-thunk react-redux</span><br><span class="line">$ npm install redux-devtools-extension</span><br></pre></td></tr></table></figure>
+
+<br />
+
+<h3 id="테스트-소스-깃-레포"><a href="#테스트-소스-깃-레포" class="headerlink" title="테스트 소스 깃 레포"></a><a target="_blank" rel="noopener" href="https://github.com/shlee0882/redux-study">테스트 소스 깃 레포</a></h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://shlee0882.github.io">마곡뚜벅쵸</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://shlee0882.github.io/2023/08/15/react-redux-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/">http://shlee0882.github.io/2023/08/15/react-redux-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/redux/">redux</a></div><div class="post_share"><div class="social-share" data-image="https://avatars.githubusercontent.com/u/11533610?v=4" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/08/13/%EC%BB%B4%ED%93%A8%ED%84%B0-%EC%A0%84%EA%B3%B5-%EC%9A%B0%EB%8C%80%EC%97%90-%EB%8C%80%ED%95%9C-%EC%83%9D%EA%B0%81/" title="컴퓨터 전공 우대에 대한 생각"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next</div><div class="next_info">컴퓨터 전공 우대에 대한 생각</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/11533610?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">마곡뚜벅쵸</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">게시글</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">태그</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">카테고리</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shlee0882"><i class="fab fa-github"></i><span>팔로우 하기</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn"></i><span>공지</span></div><div class="announcement_content">안녕하세요.<br/>마곡뚜벅쵸의 공간입니다.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90"><span class="toc-number">1.</span> <span class="toc-text">Redux 기본 개념</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux-%EC%89%BD%EA%B2%8C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"><span class="toc-number">2.</span> <span class="toc-text">Redux 쉽게 이해하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"><span class="toc-number">3.</span> <span class="toc-text">Redux 코드로 이해하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EC%84%A4%EC%B9%98"><span class="toc-number">4.</span> <span class="toc-text">설치</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%86%8C%EC%8A%A4-%EA%B9%83-%EB%A0%88%ED%8F%AC"><span class="toc-number">4.1.</span> <span class="toc-text">테스트 소스 깃 레포</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>최근 포스트</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/15/react-redux-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0/" title="react-redux 이해하기">react-redux 이해하기</a><time datetime="2023-08-15T10:48:45.000Z" title="Created 2023-08-15 19:48:45">2023-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/13/%EC%BB%B4%ED%93%A8%ED%84%B0-%EC%A0%84%EA%B3%B5-%EC%9A%B0%EB%8C%80%EC%97%90-%EB%8C%80%ED%95%9C-%EC%83%9D%EA%B0%81/" title="컴퓨터 전공 우대에 대한 생각">컴퓨터 전공 우대에 대한 생각</a><time datetime="2023-08-13T07:37:14.000Z" title="Created 2023-08-13 16:37:14">2023-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/10/%EC%A0%80%EC%9A%B8%EC%A7%88%EC%97%90-%EB%8C%80%ED%95%9C-%EC%83%9D%EA%B0%81/" title="저울질에 대한 생각">저울질에 대한 생각</a><time datetime="2023-08-10T08:49:26.000Z" title="Created 2023-08-10 17:49:26">2023-08-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/10/%EB%82%98%EC%9D%98-%EC%95%84%EB%A5%B4%EB%B0%94%EC%9D%B4%ED%8A%B8-%EA%B2%BD%ED%97%98/" title="나의 아르바이트 경험">나의 아르바이트 경험</a><time datetime="2023-08-10T08:30:56.000Z" title="Created 2023-08-10 17:30:56">2023-08-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/10/%ED%9B%8C%EB%A5%AD%ED%95%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90%EA%B0%80-%EB%90%98%EB%8A%94-%EB%B0%A9%EB%B2%95/" title="훌륭한 개발자가 되는 방법">훌륭한 개발자가 되는 방법</a><time datetime="2023-08-10T07:19:32.000Z" title="Created 2023-08-10 16:19:32">2023-08-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 마곡뚜벅쵸</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
